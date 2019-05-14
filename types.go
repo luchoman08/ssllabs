@@ -289,14 +289,14 @@ type HpkpPolicy struct {
 
 // SPkpPolicy descries the Static PkpPolicy
 type SPkpPolicy struct {
-	Status               string   `json:"status"`
-	Error                string   `json:"error"`
-	IncludeSubDomains    bool     `json:"includeSubDomains"`
-	ReportURI            string   `json:"reportUri"`
+	Status               string    `json:"status"`
+	Error                string    `json:"error"`
+	IncludeSubDomains    bool      `json:"includeSubDomains"`
+	ReportURI            string    `json:"reportUri"`
 	Pins                 []HpkpPin `json:"pins"`
-	MatchedPins          []string `json:"matchedPins"`
-	ForbiddenPins        []string `json:"forbiddenPins"`
-	MatchedForbiddenPins []string `json:"matchedForbiddenPins"`
+	MatchedPins          []HpkpPin `json:"matchedPins"`
+	ForbiddenPins        []HpkpPin `json:"forbiddenPins"`
+	MatchedForbiddenPins []HpkpPin `json:"matchedForbiddenPins"`
 }
 
 // HTTPTransaction gives the entire request/response
