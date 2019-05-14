@@ -1,4 +1,4 @@
-package ssllabs // import "github.com/keltia/ssllabs"
+package ssllabs // import "github.com/luchoman08/ssllabs"
 
 import (
 	"encoding/json"
