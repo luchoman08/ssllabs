@@ -1,4 +1,4 @@
-module github.com/keltia/ssllabs
+module github.com/luchoman08/ssllabs
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
