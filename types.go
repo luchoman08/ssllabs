@@ -293,7 +293,7 @@ type SPkpPolicy struct {
 	Error                string   `json:"error"`
 	IncludeSubDomains    bool     `json:"includeSubDomains"`
 	ReportURI            string   `json:"reportUri"`
-	Pins                 []string `json:"pins"`
+	Pins                 []HpkpPin `json:"pins"`
 	MatchedPins          []string `json:"matchedPins"`
 	ForbiddenPins        []string `json:"forbiddenPins"`
 	MatchedForbiddenPins []string `json:"matchedForbiddenPins"`
