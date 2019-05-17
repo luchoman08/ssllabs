@@ -18,6 +18,17 @@ https://github.com/ssllabs/ssllabs-scan/blob/master/ssllabs-api-docs-v3.md
 GET only, no POST
 */
 
+type RetriesExeed struct {
+	message string
+}
+func NewRetriesExeed(message string) RetriesExeed {
+	return RetriesExeed{
+		message: message,
+	}
+}
+func (e RetriesExeed) Error() string {
+	return e.message
+}
 const (
 	baseURL = "https://api.ssllabs.com/api/v3"
 
@@ -178,7 +189,7 @@ func (c *Client) GetDetailedReport(site string, myopts ...map[string]string) (Ho
 
 	lr, err := c.Analyze(site, c.force, []map[string]string{opts}...)
 	if err != nil {
-		return Host{}, errors.Wrap(err, "GetDetailedReport")
+		return Host{}, err
 	}
 
 	if len(lr.Endpoints) != 0 {
@@ -242,7 +253,7 @@ func (c *Client) Analyze(site string, force bool, myopts ...map[string]string) (
 	retry := 0
 	for {
 		if retry >= c.retries {
-			return &Host{}, fmt.Errorf("retries exceeded raw=%v", string(raw))
+			return &Host{}, NewRetriesExeed("max retries exeed")
 		}
 
 		raw, err = c.callAPI("analyze", "", opts)
