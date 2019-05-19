@@ -21,6 +21,18 @@ GET only, no POST
 type RetriesExeed struct {
 	message string
 }
+type UnableToResolveDomain struct {
+	message string
+}
+func NewUnableToResolveDomain(message string) UnableToResolveDomain {
+	return UnableToResolveDomain{
+		message: message,
+	}
+}
+func (e UnableToResolveDomain) Error() string {
+	return e.message
+}
+
 func NewRetriesExeed(message string) RetriesExeed {
 	return RetriesExeed{
 		message: message,
@@ -252,7 +264,8 @@ func (c *Client) Analyze(site string, force bool, myopts ...map[string]string) (
 
 	retry := 0
 	for {
-		if retry >= c.retries {
+		if retry > c.retries {
+
 			return &Host{}, NewRetriesExeed("max retries exeed")
 		}
 
@@ -270,11 +283,13 @@ func (c *Client) Analyze(site string, force bool, myopts ...map[string]string) (
 		c.debug("raw=%v", string(raw))
 
 		// End of analysis
-		if lr.Status == "READY" || lr.Status == "ERROR " {
+		if lr.Status == "READY"  {
 			c.debug("out-of-loop")
 			break
 		}
-
+		if lr.Status == "ERROR" {
+			return &lr, NewUnableToResolveDomain("unable to resolve domain")
+		}
 		c.debug("loop")
 		time.Sleep(2 * time.Second)
 		retry++
